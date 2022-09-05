@@ -1,0 +1,1 @@
+# cumulocity-advanced-radial-gauge-widget-plugin
