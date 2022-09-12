@@ -23,15 +23,11 @@ import { CommonModule, CoreModule, HOOK_COMPONENTS } from "@c8y/ngx-components";
 import { AdvancedRadialGaugeConfig } from "./advanced-radial-gauge.config.component";
 import { AdvancedRadialGauge } from "./advanced-radial-gauge.component";
 import { NgModule } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
 import { NgxEchartsModule } from "ngx-echarts";
-import * as echarts from 'echarts';
 import { AngularResizedEventModule } from "angular-resize-event";
 
 @NgModule({
-    imports: [CoreModule, CommonModule, HttpClientModule, NgxEchartsModule.forRoot({
-        echarts
-      }), AngularResizedEventModule],
+    imports: [CoreModule, CommonModule, NgxEchartsModule.forChild(), AngularResizedEventModule],
     declarations: [AdvancedRadialGauge, AdvancedRadialGaugeConfig],
     entryComponents: [AdvancedRadialGauge, AdvancedRadialGaugeConfig],
     providers: [
@@ -45,7 +41,7 @@ import { AngularResizedEventModule } from "angular-resize-event";
                 component: AdvancedRadialGauge,
                 configComponent: AdvancedRadialGaugeConfig,
                 previewImage: require("./assets/img-preview.png"),
-                data: {
+                /* data: {
                     ng1: {
                         options: {
                             noDeviceTarget: false,
@@ -54,7 +50,7 @@ import { AngularResizedEventModule } from "angular-resize-event";
                             groupsSelectable: true
                         },
                     },
-                },
+                }, */
             },
         }
     ],

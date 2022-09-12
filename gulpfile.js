@@ -9,8 +9,8 @@ function clean() {
 
 const bundle = series(
     function createZip() {
-        return src(`./dist/apps/${pkgJson.name}/**/*`)
-            .pipe(zip(`${pkgJson.name}-${pkgJson.version}.zip`))
+        return src(`./dist/apps/${pkgJson.c8y.application.contextPath}/**/*`)
+            .pipe(zip(`${pkgJson.c8y.application.contextPath}-${pkgJson.version}.zip`))
             .pipe(dest('dist/'))
     }
 )
@@ -19,5 +19,5 @@ exports.clean = clean;
 exports.bundle = bundle;
 exports.default = series(bundle, async function success() {
     console.log("Build Finished Successfully!");
-    console.log(`PluginOutput (Install in the browser): dist/${pkgJson.name}-${pkgJson.version}.zip`);
+    console.log(`PluginOutput (Install in the browser): dist/${pkgJson.c8y.application.contextPath}-${pkgJson.version}.zip`);
 });
