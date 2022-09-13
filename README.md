@@ -55,6 +55,7 @@ This Advanced Radial Gauge widget is the Cumulocity module federation plugin. Th
 1. Clone the repository: 
 ```
 git clone https://github.com/SoftwareAG/cumulocity-advanced-radial-gauge-widget-plugin.git
+
 ```
 2. Change directory: 
 ```
