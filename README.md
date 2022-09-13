@@ -12,6 +12,7 @@ This Advanced Radial Gauge widget is the Cumulocity module federation plugin. Th
 
 ## Prerequisites:
    Cumulocity c8ycli >=1014.x.x
+   This Plugin is exclusive to Application Builder.
    
 ## Installation
 
