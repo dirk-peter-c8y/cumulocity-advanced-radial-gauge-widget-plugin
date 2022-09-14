@@ -26,10 +26,19 @@ import * as echarts from "echarts";
 import { formatDate } from '@angular/common';
 import { ResizedEvent } from 'angular-resize-event';
 import { EChartsOption } from 'echarts';
+import { NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 @Component({
     selector: "lib-advanced-radial-gauge",
     templateUrl: "./advanced-radial-gauge.component.html",
     styleUrls: ["./advanced-radial-gauge.component.css"],
+    providers: [
+     {
+       provide: NGX_ECHARTS_CONFIG,
+       useValue: {
+         echarts: () => import('echarts')
+       }
+     },
+   ]
 })
 export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
 

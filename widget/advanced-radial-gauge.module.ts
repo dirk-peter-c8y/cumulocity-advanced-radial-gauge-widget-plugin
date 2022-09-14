@@ -27,7 +27,7 @@ import { NgxEchartsModule } from "ngx-echarts";
 import { AngularResizedEventModule } from "angular-resize-event";
 
 @NgModule({
-    imports: [CoreModule, CommonModule, NgxEchartsModule.forChild(), AngularResizedEventModule],
+    imports: [CoreModule, CommonModule, NgxEchartsModule, AngularResizedEventModule],
     declarations: [AdvancedRadialGauge, AdvancedRadialGaugeConfig],
     entryComponents: [AdvancedRadialGauge, AdvancedRadialGaugeConfig],
     providers: [
