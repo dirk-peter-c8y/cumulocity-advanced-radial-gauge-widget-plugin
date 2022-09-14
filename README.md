@@ -2,6 +2,8 @@
 
 This Advanced Radial Gauge widget is the Cumulocity module federation plugin. This plugin can be used in Application Builder or Cockpit. It shows the latest realtime measurement on a radial gauge.
 
+https://user-images.githubusercontent.com/99970126/190163495-63587697-cb86-467c-9bfc-feaf66b92ad6.png
+
 ### Please note that this plugin is in currently under BETA mode.
 
 ### Please choose Advanced Radial Gauge Widget release based on Cumulocity/Application builder version:
