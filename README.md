@@ -11,7 +11,8 @@ This Advanced Radial Gauge widget is the Cumulocity module federation plugin. Th
 | 1.4.x(coming soon) | >= 1015.x.x| 1.x.x                                |
 
 ## Prerequisites:
-   Cumulocity c8ycli >=1014.x.x
+   1. This Plugin is `exclusive` to `Application Builder`.
+   2. Cumulocity c8ycli >=1014.x.x
    
 ## Installation
 
@@ -42,7 +43,7 @@ This Advanced Radial Gauge widget is the Cumulocity module federation plugin. Th
 
 ### Runtime Deployment?
 
-* This widget support runtime deployment. Download [Runtime Binary](https://github.com/SoftwareAG/cumulocity-kpi-trend-widget-plugin/releases/download/1.0.0-beta/cumulocity-kpi-trend-widget-plugin-1.0.0-beta.zip) and install via Administrations(Beta mode) --> Ecosystems --> Applications --> Packages 
+* This widget support runtime deployment. Download [Runtime Binary](https://github.com/SoftwareAG/cumulocity-advanced-radial-gauge-widget-plugin/releases/download/1.0.0-beta/advanced-radial-gauge-1.0.0-beta.zip) and install via Administrations(Beta mode) --> Ecosystems --> Applications --> Packages 
 
 ### Local Development?
 
@@ -54,11 +55,11 @@ This Advanced Radial Gauge widget is the Cumulocity module federation plugin. Th
 **Instructions**
 1. Clone the repository: 
 ```
-git clone https://github.com/SoftwareAG/cumulocity-kpi-trend-widget-plugin.git
+git clone https://github.com/SoftwareAG/cumulocity-advanced-radial-gauge-widget-plugin.git
 ```
 2. Change directory: 
 ```
-cd cumulocity-kpi-trend-widget-plugin
+cd cumulocity-advanced-radial-gauge-widget-plugin
 ```
 3. Install the dependencies: 
 ```
