@@ -44,7 +44,7 @@ This Advanced Radial Gauge widget is the Cumulocity module federation plugin. Th
 
 ### Runtime Deployment?
 
-* This widget support runtime deployment. Download [Runtime Binary](https://github.com/SoftwareAG/cumulocity-advanced-radial-gauge-widget-plugin/releases/download/1.0.0-beta/advanced-radial-gauge-1.0.0-beta.zip) and install via Administrations(Beta mode) --> Ecosystems --> Applications --> Packages 
+* This widget support runtime deployment. Download [Runtime Binary](https://github.com/SoftwareAG/cumulocity-advanced-radial-gauge-widget-plugin/releases/download/1.0.1-beta/advanced-radial-gauge-1.0.1-beta.zip) and install via Administrations(Beta mode) --> Ecosystems --> Applications --> Packages 
 
 ### Local Development?
 
