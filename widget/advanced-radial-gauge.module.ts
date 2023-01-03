@@ -41,7 +41,7 @@ import { AngularResizedEventModule } from "angular-resize-event";
                 component: AdvancedRadialGauge,
                 configComponent: AdvancedRadialGaugeConfig,
                 previewImage: require("./assets/img-preview.png"),
-                /* data: {
+                 data: {
                     ng1: {
                         options: {
                             noDeviceTarget: false,
@@ -50,7 +50,7 @@ import { AngularResizedEventModule } from "angular-resize-event";
                             groupsSelectable: true
                         },
                     },
-                }, */
+                }, 
             },
         }
     ],

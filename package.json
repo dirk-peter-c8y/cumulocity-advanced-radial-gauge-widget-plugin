@@ -1,7 +1,7 @@
 {
   "name": "cumulocity-advanced-radial-gauge-widget-plugin",
   "version": "1.0.1-beta",
-  "description": "This widget shows the latest realtime measurement on a radial gauge.",
+  "description": "This is the Cumulocity module federation plugin.",
   "scripts": {
     "start": "c8ycli server --env.beta=true",
     "build": "c8ycli build --env.mode=production",
@@ -50,13 +50,15 @@
     "gulp": "^4.0.2",
     "gulp-zip": "^5.0.1",
     "del": "^6.1.1",
-    "html-loader": "4.1.0"
+    "html-loader": "4.1.0",
+    "style-loader": "3.3.1"
   },
   "c8y": {
     "application": {
-      "name": "Advanced Radial Gauge Widget",
-      "contextPath": "advanced-radial-gauge",
-      "key": "advanced-radial-gauge-application-key",
+      "name": "Advanced Radial Gauge Widget Plugin",
+      "description": "Cumulocity Advanced Radial Gauge Runtime Widget Plugin with module federation",
+      "contextPath": "advanced-radial-gauge-runtime-widget",
+      "key": "advanced-radial-gauge-runtime-widget-application-key",
       "globalTitle": "Cumulocity Advanced Radial Gauge Widget with Module Federation",
       "tabsHorizontal": true,
       "isPackage": true,
@@ -65,7 +67,7 @@
       "requiredPlatformVersion": ">=1016.0.0",
       "exports": [
         {
-          "name": "Cumulocity Advanced Radial Gauge Widget Plugin",
+          "name": "Advanced Radial Gauge Widget Plugin",
           "module": "AdvancedRadialGaugeModule",
           "path": "./widget/advanced-radial-gauge.module.ts",
           "description": "This widget shows the latest realtime measurement on a radial gauge."
