@@ -57,8 +57,8 @@
     "application": {
       "name": "Advanced Radial Gauge Widget Plugin",
       "description": "Cumulocity Advanced Radial Gauge Runtime Widget Plugin with module federation",
-      "contextPath": "advanced-radial-gauge-runtime-widget",
-      "key": "advanced-radial-gauge-runtime-widget-application-key",
+      "contextPath": "advanced-radial-gauge",
+      "key": "advanced-radial-gauge-application-key",
       "globalTitle": "Cumulocity Advanced Radial Gauge Widget with Module Federation",
       "tabsHorizontal": true,
       "isPackage": true,
