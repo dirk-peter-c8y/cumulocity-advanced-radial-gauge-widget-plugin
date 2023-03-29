@@ -36,7 +36,7 @@ import { AngularResizedEventModule } from "angular-resize-event";
             multi: true,
             useValue: {
                 id: "global.presales.advanced.radial.gauge.widget",
-                label: "Advanced Radial Gauge Widget Plugin",
+                label: "Advanced Radial Gauge",
                 description: "Cumulocity IoT Advanced Radial Gauge Widget",
                 component: AdvancedRadialGauge,
                 configComponent: AdvancedRadialGaugeConfig,
