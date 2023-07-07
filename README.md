@@ -8,7 +8,8 @@ This Advanced Radial Gauge widget is the Cumulocity module federation plugin. Th
 |--------------------|------------|--------------------------------------|
 | 2.x.x              | >= 1016.x.x| 1.x.x                                |
 
-![Preview](https://user-images.githubusercontent.com/99970126/190163495-63587697-cb86-467c-9bfc-feaf66b92ad6.png)
+![Image](assets/img-preview.png)
+
 
 ## Prerequisite
    Cumulocity c8ycli >=1016.x.x

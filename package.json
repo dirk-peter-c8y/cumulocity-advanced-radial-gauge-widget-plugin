@@ -10,9 +10,11 @@
     "prebuild": " gulp clean",
     "postbuild": " gulp bundle"
   },
-  "keywords": ["Cumulocity",
-  "Plugin",
-  "Widget"],
+  "keywords": [
+    "Cumulocity",
+    "Plugin",
+    "Widget"
+  ],
   "author": "Software AG, Global Presales",
   "license": "Apache-2.0",
   "dependencies": {
@@ -79,7 +81,17 @@
         "widget-plugin": [
           "AdvancedRadialGaugeModule"
         ]
-      }
+      },
+      "copy": [
+        {
+          "from": "assets/img-preview.png",
+          "to": "assets/img-preview.png"
+        },
+        {
+          "from": "LICENSE",
+          "to": "LICENSE.txt"
+        }
+      ]
     },
     "cli": {}
   },
