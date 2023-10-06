@@ -47,7 +47,8 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
     public uniqueId = "";
 
     public topMargin = "";
-
+    public headingColor:string = '#000000';
+    public lastUpdatedDate:Date;
     private radialGauge: echarts.ECharts;
     radialChartOption: EChartsOption = {};
      width: number;
@@ -91,6 +92,7 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
     constructor(private realtime: Realtime, private measurementService: MeasurementService) { }
 
     async ngOnInit(): Promise<void> {
+        this.configureHeadingColor();
         try {
 
             // Create Timestamp
@@ -211,13 +213,22 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
                 if (resp.data[0][this.measurement.fragment][this.measurement.series].unit !== undefined && resp.data[0][this.measurement.fragment][this.measurement.series].unit !== null) {
                     this.lastMeasurement.unit = resp.data[0][this.measurement.fragment][this.measurement.series].unit;
                 }
-
+                this.lastUpdatedDate=new Date(resp.data[0].time);
             }
             this.configureTopMarginRequired();
             // Show Chart
             this.showChart();
         } catch (e) {
             console.log("Advanced Radial Gauge Widget - " + e);
+        }
+    }
+
+    public configureHeadingColor():void{
+        if( (_.get(this.config, 'darkMode'))===true){
+            this.headingColor='#ffffff';
+        }
+        else{
+            this.headingColor='#000000';
         }
     }
 
@@ -234,6 +245,7 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
                 bottom: '0%',
                 textStyle: {
                     fontSize: this.label.fontSize,
+                    color: this.headingColor
                 },
                 link: this.label.hyperlink
             },
@@ -315,6 +327,7 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
         };
         // Subscribe realtime to measurement
         this.subscription = this.realtime.subscribe('/measurements/' + this.deviceId, (data) => {
+            this.lastUpdatedDate=data.data.data.time;
             try {
                 if (data.data.data[this.measurement.fragment] !== undefined && data.data.data[this.measurement.fragment][this.measurement.series] !== undefined) {
                     this.lastMeasurement.value = data.data.data[me.measurement.fragment][me.measurement.series].value;
@@ -405,7 +418,7 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
     // Event called on resize of chart box
     onChartResized(event: ResizedEvent) {
         this.width = event.newWidth;
-        this.height = event.newHeight;
+        this.height = event.newHeight-15;
         if (this.radialGauge) {
             this.radialGauge.resize({
                 width: this.width,

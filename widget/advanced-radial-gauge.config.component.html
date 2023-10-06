@@ -135,8 +135,15 @@
                 </ng-container>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-4 col-md-4">
                     <button type="button" class="btn btn-link" (click)="addRange()">Add range</button>
+                </div>
+                <div class="col-sm-4 col-md-4" style="margin-top: 5px;">
+                    <label title="DarkMode" class="c8y-checkbox">
+                        <input type="checkbox" value="false" [(ngModel)]="config.darkMode">
+                        <span></span>
+                        <span>Dark Mode</span>
+                    </label>
                 </div>
             </div>
         </fieldset>
