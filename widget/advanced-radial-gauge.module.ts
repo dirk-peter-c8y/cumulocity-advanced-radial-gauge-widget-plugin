@@ -19,15 +19,16 @@
  * 
  */
 
-import { CommonModule, CoreModule, HOOK_COMPONENTS } from "@c8y/ngx-components";
+import { CommonModule, CoreModule, DynamicDatapointsResolver, HOOK_COMPONENTS } from "@c8y/ngx-components";
 import { AdvancedRadialGaugeConfig } from "./advanced-radial-gauge.config.component";
 import { AdvancedRadialGauge } from "./advanced-radial-gauge.component";
 import { NgModule } from "@angular/core";
 import { NgxEchartsModule } from "ngx-echarts";
 import { AngularResizedEventModule } from "angular-resize-event";
+import { DatapointSelectorModule } from '@c8y/ngx-components/datapoint-selector';
 
 @NgModule({
-    imports: [CoreModule, CommonModule, NgxEchartsModule, AngularResizedEventModule],
+    imports: [CoreModule, CommonModule, NgxEchartsModule, AngularResizedEventModule, DatapointSelectorModule],
     declarations: [AdvancedRadialGauge, AdvancedRadialGaugeConfig],
     entryComponents: [AdvancedRadialGauge, AdvancedRadialGaugeConfig],
     providers: [
@@ -41,6 +42,9 @@ import { AngularResizedEventModule } from "angular-resize-event";
                 component: AdvancedRadialGauge,
                 configComponent: AdvancedRadialGaugeConfig,
                 previewImage: require("./assets/img-preview.png"),
+                resolve: {
+                    datapoints: DynamicDatapointsResolver,
+                  },
                  data: {
                     ng1: {
                         options: {

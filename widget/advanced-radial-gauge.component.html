@@ -2,8 +2,12 @@
     Ignore the scroll bars when running locally because for some reason they don't appear once deployed.
 -->
 <div (resized)="onChartResized($event)" style="height:99%;width:99%;">
-
-
+    <div class="d-flex j-c-center">
+        <p class="icon-flex text-center text-muted small">   
+          <i c8yIcon="calendar"></i>   
+          {{ lastUpdatedDate | date: 'medium' }}    
+        </p>   
+    </div>
     <div echarts [options]="radialChartOption" [id]="uniqueId" [style.height.px]="height"
         [style.width.px]="width">
     </div>

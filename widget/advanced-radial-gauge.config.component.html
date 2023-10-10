@@ -1,14 +1,20 @@
 <div class="row">
+    <div class="form-group col-sm-12 " *ngIf="configDevice">
+        <form [formGroup]="formGroup" >
+        <c8y-datapoint-selection-list
+            [minActiveCount]="1"
+            [maxActiveCount]="1"
+            [defaultFormOptions]="datapointSelectDefaultFormOptions"
+            [config]="datapointSelectionConfig"
+            formControlName="datapoints"
+            name="datapoints"
+        ></c8y-datapoint-selection-list>
+        </form>
+    </div>
+</div>
+<div class="row">
     <div class="col-lg-12">
         <div class="tight-grid">
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label>Measurement name</label>
-                    <select class="form-control" [(ngModel)]="widgetInfo.measurement.name" (focus)="loadFragmentSeries()" (change)="updateConfig()">
-                        <option [ngValue]="seriesValue" *ngFor="let seriesValue of widgetInfo.measurement.supportedSeries">{{seriesValue}}</option>
-                    </select>
-                </div>
-            </div>
             <div class="col-lg-4">
                 <div class="form-group">
                     <label>Measurement font size</label>
@@ -20,6 +26,13 @@
                     <label>No. of digits after decimal</label>
                     <input type="number" class="form-control" [(ngModel)]="widgetInfo.measurement.decimalDigits" min="0" (change)="updateConfig()" />
                 </div>
+            </div>
+            <div class="col-sm-4 col-md-4" style="margin-top: 30px;">
+                <label title="DarkMode" class="c8y-checkbox" style="margin-left: 30px;">
+                    <input type="checkbox" value="false" [(ngModel)]="config.darkMode">
+                    <span></span>
+                    <span>Dark Mode</span>
+                </label>
             </div>
         </div>
     </div>
@@ -55,7 +68,7 @@
                 <ng-container *ngIf="widgetInfo.gauge.indicatorType === 'pointer'">
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label>Pointer offset (in %)</label>
+                            <label>Pointer offset (%)</label>
                             <input type="number" class="form-control" [(ngModel)]="widgetInfo.gauge.pointer.offset" />
                         </div>
                     </div>
@@ -135,7 +148,7 @@
                 </ng-container>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-sm-4 col-md-4">
                     <button type="button" class="btn btn-link" (click)="addRange()">Add range</button>
                 </div>
             </div>
