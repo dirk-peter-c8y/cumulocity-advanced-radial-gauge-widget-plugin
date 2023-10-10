@@ -1,14 +1,20 @@
 <div class="row">
+    <div class="form-group col-sm-12 " *ngIf="configDevice">
+        <form [formGroup]="formGroup" >
+        <c8y-datapoint-selection-list
+            [minActiveCount]="1"
+            [maxActiveCount]="1"
+            [defaultFormOptions]="datapointSelectDefaultFormOptions"
+            [config]="datapointSelectionConfig"
+            formControlName="datapoints"
+            name="datapoints"
+        ></c8y-datapoint-selection-list>
+        </form>
+    </div>
+</div>
+<div class="row">
     <div class="col-lg-12">
         <div class="tight-grid">
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label>Measurement name</label>
-                    <select class="form-control" [(ngModel)]="widgetInfo.measurement.name" (focus)="loadFragmentSeries()" (change)="updateConfig()">
-                        <option [ngValue]="seriesValue" *ngFor="let seriesValue of widgetInfo.measurement.supportedSeries">{{seriesValue}}</option>
-                    </select>
-                </div>
-            </div>
             <div class="col-lg-4">
                 <div class="form-group">
                     <label>Measurement font size</label>

@@ -15,19 +15,47 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { ControlContainer, NgForm } from "@angular/forms";
+import { Component, Input, OnInit, OnDestroy, DoCheck } from '@angular/core';
+import { AbstractControl, ControlContainer, FormBuilder, NgForm, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { FetchClient, IFetchResponse } from '@c8y/client';
 import * as _ from 'lodash';
+import {
+    DatapointAttributesFormConfig,
+    DatapointSelectorModalOptions,
+    KPIDetails,
+  } from '@c8y/ngx-components/datapoint-selector';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+  export function exactlyASingleDatapointActive(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const datapoints: any[] = control.value;
+      if (!datapoints || !datapoints.length) {
+        return null;
+      }
+      const activeDatapoints = datapoints.filter(datapoint => datapoint.__active);
+      if (activeDatapoints.length === 1) {
+        return null;
+      }
+      return { exactlyOneDatapointNeedsToBeActive: true };
+    };
+  }
 
 @Component({
     selector: "advanced-radial-gauge-config-component",
     templateUrl: "./advanced-radial-gauge.config.component.html",
     styleUrls: ["./advanced-radial-gauge.config.component.css"]
 })
-export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy {
+export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy, DoCheck {
 
     @Input() config: any = {};
+    datapointSelectDefaultFormOptions: Partial<DatapointAttributesFormConfig> = {
+        showRange: false,
+        showChart: false,
+      };
+    datapointSelectionConfig: Partial<DatapointSelectorModalOptions> = {};
+    formGroup: ReturnType<AdvancedRadialGaugeConfig['createForm']>;
+    configDevice = null;
     oldDeviceId: string = '';
     public supportedSeries: string[];
     public measurementSeriesDisabled: boolean = false;
@@ -64,17 +92,26 @@ export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy {
             }
         ]
     };
-
-    constructor(private fetchClient: FetchClient) {}
+    private destroy$ = new Subject<void>();
+    constructor(private fetchClient: FetchClient, private formBuilder: FormBuilder, private form: NgForm) {}
     
     ngOnInit(): void {
         // Editing an existing widget
+        if (this.config.device && this.config.device.id) {
+            this.configDevice = this.config.device.id;
+            this.datapointSelectionConfig.contextAsset = this.config.device;
+            this.datapointSelectionConfig.assetSelectorConfig;
+          }
         if(_.has(this.config, 'customwidgetdata')) {
             this.loadFragmentSeries();
             this.widgetInfo = _.get(this.config, 'customwidgetdata');
         } else { // Adding a new widget
             _.set(this.config, 'customwidgetdata', this.widgetInfo);
         }
+        this.initForm();
+        this.formGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+        this.config.datapoints = [ ...value.datapoints ];
+      });
     }
 
     public addRange() {
@@ -116,10 +153,37 @@ export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy {
         }
     }
 
+    ngDoCheck(): void {
+        if (this.config.device && this.config.device.id !== this.configDevice) {
+          this.configDevice = this.config.device.id;
+          const context = this.config.device;
+          if (context?.id) {
+            this.datapointSelectionConfig.contextAsset = context;
+            this.datapointSelectionConfig.assetSelectorConfig
+          }
+        }
+      }
     ngOnDestroy(): void {
         //unsubscribe from observables here
     }
 
+    private initForm(): void {
+        this.formGroup = this.createForm();
+        this.form.form.addControl('config', this.formGroup);
+        if (this.config?.datapoints) {
+          this.formGroup.patchValue({ datapoints: this.config.datapoints });
+        }
+      }
+
+    private createForm() {
+        return this.formBuilder.group({
+          datapoints: this.formBuilder.control(new Array<KPIDetails>(), [
+            Validators.required,
+            Validators.minLength(1),
+            exactlyASingleDatapointActive()
+          ])
+        });
+      }
 
     
 }

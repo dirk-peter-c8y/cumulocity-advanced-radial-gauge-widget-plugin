@@ -110,12 +110,13 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
             }
 
             // Measurement
-            this.measurement.fullname = _.get(this.config, 'customwidgetdata.measurement.name');
-            if (this.measurement.fullname === undefined || this.measurement.fullname === null || this.measurement.fullname === "") {
-                throw new Error("Measurement is blank.");
-            } else {
-                this.measurement.fragment = this.measurement.fullname.split(".")[0];
-                this.measurement.series = this.measurement.fullname.split(".")[1];
+            if(this.config.datapoints && this.config.datapoints.length > 0){
+                const dataPointsObj = this.config.datapoints.find( dp => dp.__active == true);console.log("dpObject:",dataPointsObj);
+                this.measurement.fragment = dataPointsObj.fragment;
+                this.measurement.series=dataPointsObj.series;
+            }
+            else{
+                throw new Error("Datapoint not selected.");
             }
 
             // Measurement Font Size
