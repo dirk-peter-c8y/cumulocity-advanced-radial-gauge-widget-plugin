@@ -111,7 +111,7 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
 
             // Measurement
             if(this.config.datapoints && this.config.datapoints.length > 0){
-                const dataPointsObj = this.config.datapoints.find( dp => dp.__active == true);console.log("dpObject:",dataPointsObj);
+                const dataPointsObj = this.config.datapoints.find( dp => dp.__active == true);
                 this.measurement.fragment = dataPointsObj.fragment;
                 this.measurement.series=dataPointsObj.series;
             }
