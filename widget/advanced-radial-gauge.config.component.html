@@ -1,5 +1,6 @@
-<div class="row">
-    <div class="form-group col-sm-12 " *ngIf="configDevice">
+<div class="col-sm-4">
+    <div class="row">
+    <div class="form-group col-sm-12 ">
         <form [formGroup]="formGroup" >
         <c8y-datapoint-selection-list
             [minActiveCount]="1"
@@ -12,7 +13,9 @@
         </form>
     </div>
 </div>
-<div class="row">
+</div>
+<div class="col-sm-8">
+    <div class="row">
     <div class="col-lg-12">
         <div class="tight-grid">
             <div class="col-lg-4">
@@ -26,13 +29,6 @@
                     <label>No. of digits after decimal</label>
                     <input type="number" class="form-control" [(ngModel)]="widgetInfo.measurement.decimalDigits" min="0" (change)="updateConfig()" />
                 </div>
-            </div>
-            <div class="col-sm-4 col-md-4" style="margin-top: 30px;">
-                <label title="DarkMode" class="c8y-checkbox" style="margin-left: 30px;">
-                    <input type="checkbox" value="false" [(ngModel)]="config.darkMode">
-                    <span></span>
-                    <span>Dark Mode</span>
-                </label>
             </div>
         </div>
     </div>
@@ -92,22 +88,28 @@
                 Label
             </div>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="form-group">
                         <label>Text</label>
                         <input type="text" class="form-control" [(ngModel)]="widgetInfo.label.text" (change)="updateConfig()" />
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="form-group">
                         <label>Font size</label>
                         <input type="number" class="form-control" [(ngModel)]="widgetInfo.label.fontSize" min="1" (change)="updateConfig()" />
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="form-group">
                         <label>Hyperlink (optional)</label>
                         <input type="text" class="form-control" [(ngModel)]="widgetInfo.label.hyperlink" (change)="updateConfig()" />
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Color</label>
+                        <input type="color" class="form-control" [(ngModel)]="widgetInfo.label.color" (change)="updateConfig()" />
                     </div>
                 </div>
             </div>
@@ -154,4 +156,5 @@
             </div>
         </fieldset>
     </div>
+</div>
 </div>

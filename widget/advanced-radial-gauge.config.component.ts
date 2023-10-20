@@ -15,9 +15,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
  */
-import { Component, Input, OnInit, OnDestroy, DoCheck } from '@angular/core';
-import { AbstractControl, ControlContainer, FormBuilder, NgForm, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { FetchClient, IFetchResponse } from '@c8y/client';
+import { Component, Input, OnInit, OnDestroy} from '@angular/core';
+import { AbstractControl, FormBuilder, NgForm, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { FetchClient } from '@c8y/client';
 import * as _ from 'lodash';
 import {
     DatapointAttributesFormConfig,
@@ -46,7 +46,7 @@ import { takeUntil } from 'rxjs/operators';
     templateUrl: "./advanced-radial-gauge.config.component.html",
     styleUrls: ["./advanced-radial-gauge.config.component.css"]
 })
-export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy, DoCheck {
+export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy{
 
     @Input() config: any = {};
     datapointSelectDefaultFormOptions: Partial<DatapointAttributesFormConfig> = {
@@ -65,7 +65,8 @@ export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy, DoCheck {
         label: {
             text: 'Speed',
             fontSize: 15,
-            hyperlink: ''
+            hyperlink: '',
+            color:'#000000'
         },
         startValue: 0,
         measurement: {
@@ -103,7 +104,6 @@ export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy, DoCheck {
             this.datapointSelectionConfig.assetSelectorConfig;
           }
         if(_.has(this.config, 'customwidgetdata')) {
-            this.loadFragmentSeries();
             this.widgetInfo = _.get(this.config, 'customwidgetdata');
         } else { // Adding a new widget
             _.set(this.config, 'customwidgetdata', this.widgetInfo);
@@ -129,40 +129,9 @@ export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy, DoCheck {
 
     public updateConfig() {
         _.set(this.config, 'customwidgetdata', this.widgetInfo);
+        console.log("config:",this.config);
     }
 
-    public async loadFragmentSeries(): Promise<void> {
-        if( !_.has(this.config, "device.id")) {
-            console.log("Advanced Radial Gauge Widget - Cannot get fragment series because device id is blank.");
-        } else {
-            if(this.oldDeviceId !== this.config.device.id) {
-                this.fetchClient.fetch('/inventory/managedObjects/'+ this.config.device.id +'/supportedSeries').then((resp: IFetchResponse) => {
-                    this.measurementSeriesDisabled = false;
-                    if(resp !== undefined) {
-                        resp.json().then((jsonResp) => {
-                            this.widgetInfo.measurement.supportedSeries = jsonResp.c8y_SupportedSeries;
-                            if(!this.widgetInfo.measurement.supportedSeries.includes(this.widgetInfo.measurement.name)) {
-                                this.widgetInfo.measurement.name = "";
-                            }
-                            this.updateConfig();
-                        });
-                    }
-                    this.oldDeviceId = this.config.device.id;
-                });
-            }
-        }
-    }
-
-    ngDoCheck(): void {
-        if (this.config.device && this.config.device.id !== this.configDevice) {
-          this.configDevice = this.config.device.id;
-          const context = this.config.device;
-          if (context?.id) {
-            this.datapointSelectionConfig.contextAsset = context;
-            this.datapointSelectionConfig.assetSelectorConfig
-          }
-        }
-      }
     ngOnDestroy(): void {
         //unsubscribe from observables here
     }

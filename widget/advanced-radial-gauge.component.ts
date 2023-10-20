@@ -47,7 +47,6 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
     public uniqueId = "";
 
     public topMargin = "";
-    public headingColor:string = '#000000';
     public lastUpdatedDate:Date;
     private radialGauge: echarts.ECharts;
     radialChartOption: EChartsOption = {};
@@ -58,7 +57,8 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
     private label = {
         text: '',
         fontSize: 15,
-        hyperlink: ''
+        hyperlink: '',
+        color:''
     };
     private measurement = {
         fullname: '',
@@ -92,7 +92,6 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
     constructor(private realtime: Realtime, private measurementService: MeasurementService) { }
 
     async ngOnInit(): Promise<void> {
-        this.configureHeadingColor();
         try {
 
             // Create Timestamp
@@ -104,14 +103,10 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
             }
 
             // Device ID
-            this.deviceId = _.get(this.config, 'device.id');
-            if (this.deviceId === undefined || this.deviceId === null || this.deviceId === "") {
-                throw new Error("Device id is blank.");
-            }
-
             // Measurement
             if(this.config.datapoints && this.config.datapoints.length > 0){
                 const dataPointsObj = this.config.datapoints.find( dp => dp.__active == true);
+                this.deviceId=dataPointsObj.__target.id;
                 this.measurement.fragment = dataPointsObj.fragment;
                 this.measurement.series=dataPointsObj.series;
             }
@@ -173,6 +168,12 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
                 this.label.hyperlink = "";
             }
 
+            //Label Color
+            this.label.color = _.get(this.config, 'customwidgetdata.label.color');
+            if (this.label.color === undefined || this.label.color === null) {
+                this.label.color = "#000000";
+            }
+
             // Guage Start Value
             this.startValue = _.get(this.config, 'customwidgetdata.startValue');
             if (this.startValue === undefined) {
@@ -224,15 +225,6 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
         }
     }
 
-    public configureHeadingColor():void{
-        if( (_.get(this.config, 'darkMode'))===true){
-            this.headingColor='#ffffff';
-        }
-        else{
-            this.headingColor='#000000';
-        }
-    }
-
     private showChart(): void {
         let chartDom = document.getElementById(this.uniqueId)!;
         this.radialGauge = echarts.init(chartDom);
@@ -246,7 +238,7 @@ export class AdvancedRadialGauge implements OnDestroy, OnInit, AfterViewInit {
                 bottom: '0%',
                 textStyle: {
                     fontSize: this.label.fontSize,
-                    color: this.headingColor
+                    color: this.label.color
                 },
                 link: this.label.hyperlink
             },
