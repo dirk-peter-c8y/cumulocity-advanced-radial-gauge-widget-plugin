@@ -48,10 +48,10 @@ import { DatapointSelectorModule } from '@c8y/ngx-components/datapoint-selector'
                  data: {
                     ng1: {
                         options: {
-                            noDeviceTarget: false,
+                            noDeviceTarget: true,
                             noNewWidgets: false,
                             deviceTargetNotRequired: false,
-                            groupsSelectable: true
+                            groupsSelectable: false
                         },
                     },
                 }, 
