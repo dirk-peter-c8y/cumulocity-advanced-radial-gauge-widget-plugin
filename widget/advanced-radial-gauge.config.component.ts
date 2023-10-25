@@ -129,7 +129,6 @@ export class AdvancedRadialGaugeConfig implements OnInit, OnDestroy{
 
     public updateConfig() {
         _.set(this.config, 'customwidgetdata', this.widgetInfo);
-        console.log("config:",this.config);
     }
 
     ngOnDestroy(): void {
