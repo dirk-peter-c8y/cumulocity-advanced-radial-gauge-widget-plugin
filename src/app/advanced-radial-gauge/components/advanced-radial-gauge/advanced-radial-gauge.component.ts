@@ -26,8 +26,20 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
     unit: '',
     thresholds: {
       '0': { color: 'green' },
-      '40': { color: 'orange' },
-      '75.5': { color: 'red' },
+      '33': { color: 'orange' },
+      '66': { color: 'red' },
+    },
+    markers: {
+      '33': {
+        color: 'orange',
+        type: 'triangle',
+        size: 6,
+      },
+      '66': {
+        color: 'red',
+        type: 'triangle',
+        size: 6,
+      },
     },
   };
 
@@ -49,6 +61,7 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
       [this.config.datapoint.yellowRangeMin]: { color: 'orange' },
       [this.config.datapoint.redRangeMin]: { color: 'red' },
     };
+    this.chartConfig.markers = this.generateMarkers();
 
     await this.fetchLatestMeasurement();
     this.setupMeasurementSubscription();
@@ -74,7 +87,9 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
         this.config.datapoint.series
       ];
 
+    console.log(response.data[0]);
     this.value = measurement.value;
+    this.lastUpdated = response.data[0].time;
     this.chartConfig.unit = this.config.datapoint.unit || measurement.unit;
   }
 
@@ -89,12 +104,58 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
   }
 
   private handleMeasurementUpdate(measurement: IMeasurement): void {
-    // time fragment.series.value/unit
-    console.log(measurement);
     this.value =
       measurement[this.config.datapoint.fragment][
         this.config.datapoint.series
       ].value;
     this.lastUpdated = measurement.time;
+  }
+
+  private generateMarkers() {
+    const markers = {
+      // yellow range start
+      [this.config.datapoint.yellowRangeMin]: {
+        color: 'orange',
+        type: 'triangle',
+        size: 6,
+      },
+      // red range start
+      [this.config.datapoint.redRangeMin]: {
+        color: 'red',
+        type: 'triangle',
+        size: 6,
+      },
+      // min
+      [this.chartConfig.min]: {
+        color: '#888',
+        type: 'line',
+        size: 6,
+        label: this.chartConfig.min + '',
+      },
+      // max
+      [this.chartConfig.max]: {
+        color: '#888',
+        type: 'line',
+        size: 6,
+        label: this.chartConfig.max,
+      },
+    };
+
+    //
+    const total = this.chartConfig.max - this.chartConfig.min;
+    const steps = 5;
+    const part = total / steps;
+
+    for (let step = part; step < total; step += part) {
+      console.log(step, part);
+      markers[step] = {
+        color: '#888',
+        type: 'line',
+        size: 6,
+        label: step,
+      };
+    }
+
+    return markers;
   }
 }

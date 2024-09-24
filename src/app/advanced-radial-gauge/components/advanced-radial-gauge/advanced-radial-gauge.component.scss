@@ -3,4 +3,30 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+
+  ::ng-deep {
+    .reading-block {
+      margin-top: -0.65em;
+      overflow: visible;
+    }
+
+    .dp-label,
+    .dp-unit {
+      display: block;
+      position: absolute;
+      left: 50%;
+    }
+
+    .dp-label {
+      top: 0;
+      transform: translate(-50%, -1.125em);
+      font-size: 0.6em;
+    }
+
+    .dp-unit {
+      bottom: 0;
+      font-size: 0.6em;
+      transform: translate(-50%, 0.75em);
+    }
+  }
 }

@@ -12,6 +12,7 @@ export interface AdvancedRadialGaugeChartConfig {
   thresholds: {
     [key: string]: { color: string }
   };
+  markers: {}
 }
 
 export interface Datapoint {

@@ -1,16 +1,32 @@
 <ngx-gauge
   [type]="'semi'"
   [cap]="'round'"
+  [size]="248"
   [duration]="450"
   [thick]="10"
   [value]="value"
   [label]="lastUpdated | c8yDate"
-  [append]="chartConfig.unit"
+  [append]="config.datapoint.unit"
+  [prepend]="config.datapoint.label"
   [min]="chartConfig.min"
   [max]="chartConfig.max"
+  [margin]="20"
+  [markers]="chartConfig.markers"
   [thresholds]="chartConfig.thresholds"
 >
-<ngx-gauge-label>
-  {{ config.datapoint.label }}
-</ngx-gauge-label>
+  <ngx-gauge-append>
+    <span class="dp-unit text-muted">
+      {{ config.datapoint.unit }}
+    </span>
+  </ngx-gauge-append>
+  <ngx-gauge-label>
+    <span class="dp-date text-muted">
+      {{ lastUpdated | c8yDate }}
+    </span>
+  </ngx-gauge-label>
+  <ngx-gauge-prepend>
+    <span class="dp-label text-muted">
+      {{ config.datapoint.label }}
+    </span>
+  </ngx-gauge-prepend>
 </ngx-gauge>
