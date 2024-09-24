@@ -1,17 +1,38 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "sourceMap": true,
+    "allowJs": true,
+    "alwaysStrict": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": false,
     "experimentalDecorators": true,
-    "target": "es6",
-    "module": "es2020",
-    "lib": ["dom", "es2015", "es2016"]
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["ES2022", "dom"],
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "target": "ES2022",
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
-    "enableIvy": true
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }

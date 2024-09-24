@@ -1,101 +1,62 @@
 {
   "name": "cumulocity-advanced-radial-gauge-widget-plugin",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "Cumulocity Advanced Radial Gauge Widget shows the latest realtime measurement on a radial gauge.",
   "scripts": {
-    "start": "c8ycli server ",
-    "build": "c8ycli build --env.mode=production",
-    "deploy": "c8ycli deploy",
-    "postinstall": "ngcc",
-    "prebuild": " gulp clean",
-    "postbuild": " gulp bundle"
+    "start": "ng serve -u https://psfactory.eu-latest.cumulocity.com",
+    "start:cp": "npm start -- --shell cockpit",
+    "start:cc": "npm start -- --shell clean-cockpit",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "build": "ng build",
+    "postbuild": "node -e \"require('fs').rename('dist/plugin.zip', 'dist/${npm_package_name}_${npm_package_version}.zip', function(err) { if (err) console.log(err); console.log('File successfully renamed!') })\"",
+    "deploy": "ng deploy",
+    "test": "ng test",
+    "locale-extract": "c8ycli locale-extract"
   },
   "keywords": [
-    "Cumulocity",
-    "Plugin",
-    "Widget"
+    "cumulocity",
+    "cumulocity-iot",
+    "cumulocity-1020",
+    "cumulocity-ui-widget"
   ],
-  "author": "Software AG, Global Presales",
+  "author": "Dirk Peter",
   "license": "Apache-2.0",
   "dependencies": {
-    "@angular/animations": "14.0.6",
-    "@angular/cdk": "14.1.2",
-    "@angular/common": "14.0.6",
-    "@angular/compiler": "14.0.6",
-    "@angular/core": "14.0.6",
-    "@angular/forms": "14.0.6",
-    "@angular/platform-browser": "14.0.6",
-    "@angular/platform-browser-dynamic": "14.0.6",
-    "@angular/router": "14.0.6",
-    "@angular/upgrade": "14.0.6",
-    "@c8y/client": "1016.0.170",
-    "@c8y/ngx-components": "1016.0.170",
-    "@c8y/style": "1016.0.170",
-    "@ngx-translate/core": "14.0.0",
-    "angular-resize-event": "2.1.0",
-    "echarts": "5.2.2",
-    "ngx-echarts": "^7.1.0",
-    "rxjs": "~6.6.3",
-    "zone.js": "~0.11.7"
+    "@angular/animations": "^17.3.0",
+    "@angular/cdk": "^17.3.9",
+    "@angular/common": "^17.3.0",
+    "@angular/compiler": "^17.3.0",
+    "@angular/core": "^17.3.0",
+    "@angular/forms": "^17.3.0",
+    "@angular/platform-browser": "^17.3.0",
+    "@angular/platform-browser-dynamic": "^17.3.0",
+    "@angular/router": "^17.3.0",
+    "@c8y/bootstrap": "1020.0.19",
+    "@c8y/client": "1020.0.19",
+    "@c8y/ngx-components": "1020.0.19",
+    "@c8y/style": "1020.0.19",
+    "ngx-gauge": "^9.0.0",
+    "rxjs": "^7.4.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "14.0.6",
-    "@angular/compiler-cli": "14.0.6",
-    "@angular/language-service": "14.0.6",
-    "@angular/service-worker": "14.0.6",
-    "@angular/localize": "14.0.6",
-    "@types/jest": "^28.1.6",
-    "@types/webpack": "^5.28.0",
-    "file-loader": "^6.2.0",
-    "jest": "^28.1.3",
-    "jest-preset-angular": "^12.2.0",
-    "typescript": "4.7.4",
-    "@c8y/cli": "1016.0.170",
-    "gulp": "^4.0.2",
-    "gulp-zip": "^5.0.1",
-    "del": "^6.1.1",
-    "html-loader": "4.1.0",
-    "style-loader": "3.3.1"
-  },
-  "c8y": {
-    "application": {
-      "name": "Advanced Radial Gauge ",
-      "description": "Cumulocity Advanced Radial Gauge Widget shows the latest realtime measurement on a radial gauge.",
-      "contextPath": "sag-ps-pkg-advanced-radial-gauge",
-      "key": "sag-ps-pkg-advanced-radial-gauge-application-key",
-      "globalTitle": "Cumulocity Advanced Radial Gauge Widget with Module Federation",
-      "tabsHorizontal": true,
-      "isPackage": true,
-      "noAppSwitcher": true,
-      "package": "plugin",
-      "requiredPlatformVersion": ">=1016.0.0",
-      "exports": [
-        {
-          "name": "Advanced Radial Gauge Widget",
-          "module": "AdvancedRadialGaugeModule",
-          "path": "./widget/advanced-radial-gauge.module.ts",
-          "description": "Cumulocity Advanced Radial Gauge Widget shows the latest realtime measurement on a radial gauge."
-        }
-      ],
-      "remotes": {
-        "widget-plugin": [
-          "AdvancedRadialGaugeModule"
-        ]
-      },
-      "copy": [
-        {
-          "from": "assets/img-preview.png",
-          "to": "assets/img-preview.png"
-        },
-        {
-          "from": "LICENSE",
-          "to": "LICENSE.txt"
-        }
-      ]
-    },
-    "cli": {}
-  },
-  "browserslist": [
-    "last 2 major versions"
-  ]
+    "@angular-devkit/build-angular": "^17.3.8",
+    "@angular/cli": "^17.3.8",
+    "@angular/compiler-cli": "^17.3.0",
+    "@c8y/devkit": "1020.0.19",
+    "@c8y/options": "1020.0.19",
+    "@types/jasmine": "~5.1.0",
+    "@types/lodash": "^4.17.5",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "lodash": "^4.4.0",
+    "rimraf": "^5.0.5",
+    "typescript": "~5.4.2"
+  }
 }

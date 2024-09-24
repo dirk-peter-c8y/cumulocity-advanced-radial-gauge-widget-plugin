@@ -1,0 +1,16 @@
+<ngx-gauge
+  [type]="'semi'"
+  [cap]="'round'"
+  [duration]="450"
+  [thick]="10"
+  [value]="value"
+  [label]="lastUpdated | c8yDate"
+  [append]="chartConfig.unit"
+  [min]="chartConfig.min"
+  [max]="chartConfig.max"
+  [thresholds]="chartConfig.thresholds"
+>
+<ngx-gauge-label>
+  {{ config.datapoint.label }}
+</ngx-gauge-label>
+</ngx-gauge>
