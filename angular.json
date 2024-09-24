@@ -57,7 +57,7 @@
                 }
               ],
               "outputHashing": "all",
-              "buildØOptimizer": false
+              "buildOptimizer": false
             },
             "development": {
               "optimization": false,
