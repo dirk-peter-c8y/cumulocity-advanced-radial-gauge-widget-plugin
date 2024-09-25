@@ -1,30 +1,34 @@
-import { ISource } from "@c8y/client";
+import { ISource } from '@c8y/client';
+import { KPIDetails } from '@c8y/ngx-components/datapoint-selector';
 
 export interface AdvancedRadialGaugeConfig {
-  datapoint: Datapoint;
+  datapoint: KPIDetails;
   device: ISource;
 }
+
+export const AdvancedRadialGaugeChartmarkerType = {
+  line: 'line',
+  triangle: 'triangle',
+}
+export type AdvancedRadialGaugeChartmarkerType =
+  (typeof AdvancedRadialGaugeChartmarkerType)[keyof typeof AdvancedRadialGaugeChartmarkerType];
 
 export interface AdvancedRadialGaugeChartConfig {
   min?: number;
   max?: number;
-  unit: string;
+  unit?: string;
   thresholds: {
-    [key: string]: { color: string }
+    [key: string]: {
+      color: string;
+      bgOpacity?: number;
+    };
   };
-  markers: {}
-}
-
-export interface Datapoint {
-  fragment: string;
-  label: string;
-  max: number;
-  min: number;
-  redRangeMax: number;
-  redRangeMin: number;
-  series: string;
-  unit: string;
-  yellowRangeMax: number;
-  yellowRangeMin: number;
-  [key: string]: string | number;
+  markers: {
+    [key: string]: {
+      color: string;
+      type: AdvancedRadialGaugeChartmarkerType;
+      size?: number;
+      label?: string;
+    };
+  };
 }

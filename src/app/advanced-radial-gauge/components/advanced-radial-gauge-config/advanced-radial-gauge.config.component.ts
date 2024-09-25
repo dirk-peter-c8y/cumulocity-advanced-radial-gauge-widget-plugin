@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AdvancedRadialGaugeConfig } from '../../models/advanced-radial-gauge.model';
+import {
+  KPIDetails,
+} from '@c8y/ngx-components/datapoint-selector';
 
 @Component({
   selector: 'c8y-advanced-radial-gauge-config-component',
@@ -10,8 +13,8 @@ import { AdvancedRadialGaugeConfig } from '../../models/advanced-radial-gauge.mo
 export class AdvancedRadialGaugeWidgetConfig implements OnInit {
   @Input() config!: AdvancedRadialGaugeConfig;
 
+  datapoints: KPIDetails[];
   form = new FormGroup({});
-
   fields: FormlyFieldConfig[] = [
     {
       fieldGroup: [
@@ -114,9 +117,13 @@ export class AdvancedRadialGaugeWidgetConfig implements OnInit {
     },
   ];
 
-  constructor() {}
+  private isDev = false;
+
+  constructor() {
+    this.isDev = window.location.search.indexOf('dev=true') >= 0;
+  }
 
   ngOnInit(): void {
-    console.log('config init', this.config);
+    if (this.isDev) console.log('config init', this.config);
   }
 }

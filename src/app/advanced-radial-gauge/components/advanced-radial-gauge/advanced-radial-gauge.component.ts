@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ADVANCED_RADIAL_GAUGE__DEFAULT_CONFIG } from '../../models/advanced-radial-gauge.const';
 import {
   AdvancedRadialGaugeChartConfig,
+  AdvancedRadialGaugeChartmarkerType,
   AdvancedRadialGaugeConfig,
 } from '../../models/advanced-radial-gauge.model';
 
@@ -24,47 +25,38 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
     min: 0,
     max: 100,
     unit: '',
-    thresholds: {
-      '0': { color: 'green' },
-      '33': { color: 'orange' },
-      '66': { color: 'red' },
-    },
-    markers: {
-      '33': {
-        color: 'orange',
-        type: 'triangle',
-        size: 6,
-      },
-      '66': {
-        color: 'red',
-        type: 'triangle',
-        size: 6,
-      },
-    },
+    thresholds: {},
+    markers: {},
   };
 
   value: number;
   lastUpdated: string;
+  loading = true;
 
   private subscription: Subscription;
+  private isDev = false;
 
   constructor(
     private measurementService: MeasurementService,
     private measurementRealtimeService: MeasurementRealtimeService
-  ) {}
+  ) {
+    this.isDev = window.location.search.indexOf('dev=true') >= 0;
+  }
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
+
+    // chart config
     this.chartConfig.min = this.config.datapoint.min;
     this.chartConfig.max = this.config.datapoint.max;
-    this.chartConfig.thresholds = {
-      '0': { color: 'green' },
-      [this.config.datapoint.yellowRangeMin]: { color: 'orange' },
-      [this.config.datapoint.redRangeMin]: { color: 'red' },
-    };
+    this.chartConfig.thresholds = this.generateThresholds();
     this.chartConfig.markers = this.generateMarkers();
 
+    // measurements
     await this.fetchLatestMeasurement();
     this.setupMeasurementSubscription();
+
+    this.loading = false;
   }
 
   ngOnDestroy(): void {
@@ -82,15 +74,7 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
 
     if (!response.data.length) return;
 
-    const measurement =
-      response.data[0][this.config.datapoint.fragment][
-        this.config.datapoint.series
-      ];
-
-    console.log(response.data[0]);
-    this.value = measurement.value;
-    this.lastUpdated = response.data[0].time;
-    this.chartConfig.unit = this.config.datapoint.unit || measurement.unit;
+    this.handleMeasurementUpdate(response.data[0]);
   }
 
   private setupMeasurementSubscription() {
@@ -104,58 +88,70 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
   }
 
   private handleMeasurementUpdate(measurement: IMeasurement): void {
+    if (this.isDev) console.log('[ARGW.C] Measurement', measurement);
+
     this.value =
       measurement[this.config.datapoint.fragment][
         this.config.datapoint.series
       ].value;
     this.lastUpdated = measurement.time;
+    this.chartConfig.unit = this.config.datapoint.unit || measurement.unit;
+  }
+
+  private generateThresholds() {
+    return {
+      '0': {
+        color: 'green',
+        bgOpacity: 0.2,
+      },
+      [this.config.datapoint.yellowRangeMin]: {
+        color: 'orange',
+        bgOpacity: 0.2,
+      },
+      [this.config.datapoint.redRangeMin]: {
+        color: 'red',
+        bgOpacity: 0.2,
+      },
+    };
   }
 
   private generateMarkers() {
     const markers = {
-      // yellow range start
-      [this.config.datapoint.yellowRangeMin]: {
-        color: 'orange',
-        type: 'triangle',
-        size: 6,
-      },
-      // red range start
-      [this.config.datapoint.redRangeMin]: {
-        color: 'red',
-        type: 'triangle',
-        size: 6,
-      },
-      // min
-      [this.chartConfig.min]: {
-        color: '#888',
-        type: 'line',
-        size: 6,
-        label: this.chartConfig.min + '',
-      },
-      // max
-      [this.chartConfig.max]: {
-        color: '#888',
-        type: 'line',
-        size: 6,
-        label: this.chartConfig.max,
-      },
+      [this.chartConfig.min]: this.generateLineMarker(this.chartConfig.min),
+      [this.chartConfig.max]: this.generateLineMarker(this.chartConfig.max),
     };
 
     //
     const total = this.chartConfig.max - this.chartConfig.min;
-    const steps = 5;
+    const steps = 10;
     const part = total / steps;
+    let index = 0;
 
     for (let step = part; step < total; step += part) {
-      console.log(step, part);
-      markers[step] = {
-        color: '#888',
-        type: 'line',
-        size: 6,
-        label: step,
-      };
+      markers[step] = this.generateLineMarker(
+        steps > 5 && index % 2 === 0 ? null : step
+      );
+      index++;
     }
 
     return markers;
+  }
+
+  private generateLineMarker(label?: string | number) {
+    const lineMarkerBase = {
+      color: '#888',
+      type: AdvancedRadialGaugeChartmarkerType.line,
+      size: 6,
+    };
+
+    if (typeof label === 'number') label = Math.round(label).toString();
+    else if (!label) return lineMarkerBase;
+
+    return {
+      ...lineMarkerBase,
+      ...{
+        label,
+      },
+    };
   }
 }
