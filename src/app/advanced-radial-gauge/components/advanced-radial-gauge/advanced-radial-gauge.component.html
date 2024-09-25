@@ -18,7 +18,7 @@
   >
   </ngx-gauge>
 
-  <small class="text-muted">
+  <small *ngIf="lastUpdated" class="text-muted">
     <i [c8yIcon]="'calendar'"></i>
     {{ lastUpdated | c8yDate }}
   </small>
