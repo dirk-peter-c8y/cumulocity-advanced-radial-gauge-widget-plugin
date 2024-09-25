@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IMeasurement, MeasurementService } from '@c8y/client';
 import { MeasurementRealtimeService } from '@c8y/ngx-components';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, round } from 'lodash';
 import { Subscription } from 'rxjs';
 import { ADVANCED_RADIAL_GAUGE__DEFAULT_CONFIG } from '../../models/advanced-radial-gauge.const';
 import {
@@ -90,10 +90,11 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
   private handleMeasurementUpdate(measurement: IMeasurement): void {
     if (this.isDev) console.log('[ARGW.C] Measurement', measurement);
 
-    this.value =
-      measurement[this.config.datapoint.fragment][
-        this.config.datapoint.series
-      ].value;
+    this.value = round(
+      measurement[this.config.datapoint.fragment][this.config.datapoint.series]
+        .value,
+      1
+    );
     this.lastUpdated = measurement.time;
     this.chartConfig.unit = this.config.datapoint.unit || measurement.unit;
   }
@@ -127,12 +128,18 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
     const part = total / steps;
     let index = 0;
 
-    for (let step = part; step < total; step += part) {
+    for (
+      let step = this.chartConfig.min + part;
+      step < this.chartConfig.max;
+      step += part
+    ) {
       markers[step] = this.generateLineMarker(
         steps > 5 && index % 2 === 0 ? null : step
       );
       index++;
     }
+
+    console.log(markers);
 
     return markers;
   }
