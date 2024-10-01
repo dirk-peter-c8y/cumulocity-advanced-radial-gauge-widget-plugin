@@ -8,12 +8,10 @@ import {
   hookComponent,
 } from '@c8y/ngx-components';
 import { FormlyModule } from '@ngx-formly/core';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { AdvancedRadialGaugeWidgetConfig } from './components/advanced-radial-gauge-config/advanced-radial-gauge.config.component';
 import { AdvancedRadialGaugeWidget } from './components/advanced-radial-gauge/advanced-radial-gauge.component';
-import { DatapointSelectorModule } from '@c8y/ngx-components/datapoint-selector';
 
 @NgModule({
   imports: [
@@ -21,11 +19,9 @@ import { DatapointSelectorModule } from '@c8y/ngx-components/datapoint-selector'
     CoreModule,
     RouterModule,
     FormsModule,
-    TooltipModule,
-    NgxGaugeModule,
     FormlyModule.forChild(),
-    BsDropdownModule,
-    DatapointSelectorModule,
+    NgxGaugeModule,
+    TooltipModule,
   ],
   declarations: [AdvancedRadialGaugeWidget, AdvancedRadialGaugeWidgetConfig],
   providers: [

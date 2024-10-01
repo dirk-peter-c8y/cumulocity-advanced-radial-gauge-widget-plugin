@@ -122,7 +122,6 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
       [this.chartConfig.max]: this.generateLineMarker(this.chartConfig.max),
     };
 
-    //
     const total = this.chartConfig.max - this.chartConfig.min;
     const steps = 10;
     const part = total / steps;
@@ -139,7 +138,7 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
       index++;
     }
 
-    console.log(markers);
+    if (this.isDev) console.log('[ARGW.C] Markers', markers);
 
     return markers;
   }
