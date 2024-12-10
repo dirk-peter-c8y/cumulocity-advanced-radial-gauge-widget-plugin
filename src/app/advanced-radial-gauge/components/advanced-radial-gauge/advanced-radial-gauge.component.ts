@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { IMeasurement, MeasurementService } from '@c8y/client';
 import { MeasurementRealtimeService } from '@c8y/ngx-components';
 import { cloneDeep, round } from 'lodash';
@@ -16,6 +16,9 @@ import {
   styleUrl: './advanced-radial-gauge.component.scss',
 })
 export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
+  private measurementService = inject(MeasurementService);
+  private measurementRealtimeService = inject(MeasurementRealtimeService);
+
   @Input() config: AdvancedRadialGaugeConfig = cloneDeep(
     ADVANCED_RADIAL_GAUGE__DEFAULT_CONFIG
   );
@@ -36,10 +39,7 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
   private subscription: Subscription;
   private isDev = false;
 
-  constructor(
-    private measurementService: MeasurementService,
-    private measurementRealtimeService: MeasurementRealtimeService
-  ) {
+  constructor() {
     this.isDev = window.location.search.indexOf('dev=true') >= 0;
   }
 

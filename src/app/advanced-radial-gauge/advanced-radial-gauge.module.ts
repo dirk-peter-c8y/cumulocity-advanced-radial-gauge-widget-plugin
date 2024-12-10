@@ -10,8 +10,10 @@ import {
 import { FormlyModule } from '@ngx-formly/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxGaugeModule } from 'ngx-gauge';
-import { AdvancedRadialGaugeWidgetConfig } from './components/advanced-radial-gauge-config/advanced-radial-gauge.config.component';
-import { AdvancedRadialGaugeWidget } from './components/advanced-radial-gauge/advanced-radial-gauge.component';
+import {
+  AdvancedRadialGaugeWidget,
+  AdvancedRadialGaugeWidgetConfig,
+} from './components';
 
 @NgModule({
   imports: [
@@ -28,7 +30,7 @@ import { AdvancedRadialGaugeWidget } from './components/advanced-radial-gauge/ad
     MeasurementRealtimeService,
     hookComponent({
       id: 'advanced-radial-gauge.widget',
-      label: 'Advenced Radial Gauge',
+      label: 'Advanced Radial Gauge Widget',
       description:
         'Cumulocity Advanced Radial Gauge Widget shows the latest realtime measurement on a radial gauge.',
       component: AdvancedRadialGaugeWidget,
