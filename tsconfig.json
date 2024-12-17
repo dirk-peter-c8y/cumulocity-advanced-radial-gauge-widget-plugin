@@ -1,24 +1,32 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    /* If transpiling with TypeScript: */
+    "module": "ES2022",
+    "target": "ES2022",
     "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+
+    /* Strictness */
     "strict": true,
+    "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
+
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["ES2022", "dom"],
-    "resolveJsonModule": true,
     "useDefineForClassFields": false,
     "emitDecoratorMetadata": false,
     "strictNullChecks": false,
@@ -27,7 +35,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitAny": false,
-    "noImplicitThis": false
+    "noImplicitThis": false,
+
+    /* If your code runs in the DOM: */
+    "lib": ["es2022", "dom", "dom.iterable"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

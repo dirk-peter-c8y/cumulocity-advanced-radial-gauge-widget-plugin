@@ -131,7 +131,7 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
       step += part
     ) {
       markers[step] = this.generateLineMarker(
-        steps > 5 && index % 2 === 0 ? 0 : step // TODO check null : step
+        steps > 5 && index % 2 === 0 ? null : step
       );
       index++;
     }
