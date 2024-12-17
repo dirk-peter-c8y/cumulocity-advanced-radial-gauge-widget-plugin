@@ -2,13 +2,13 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { IMeasurement, MeasurementService } from '@c8y/client';
 import { MeasurementRealtimeService } from '@c8y/ngx-components';
 import { cloneDeep, round } from 'lodash';
-import { Subscription } from 'rxjs';
-import { ADVANCED_RADIAL_GAUGE__DEFAULT_CONFIG } from '../../models/advanced-radial-gauge.const';
 import {
+  ADVANCED_RADIAL_GAUGE_CHART_CONFIG,
   AdvancedRadialGaugeChartConfig,
-  AdvancedRadialGaugeChartmarkerType,
+  AdvancedRadialGaugeChartMarkerType,
   AdvancedRadialGaugeConfig,
 } from '../../models/advanced-radial-gauge.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'c8y-advanced-radial-gauge-widget',
@@ -19,24 +19,17 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
   private measurementService = inject(MeasurementService);
   private measurementRealtimeService = inject(MeasurementRealtimeService);
 
-  @Input() config: AdvancedRadialGaugeConfig = cloneDeep(
-    ADVANCED_RADIAL_GAUGE__DEFAULT_CONFIG
-  );
+  @Input() config?: AdvancedRadialGaugeConfig;
 
   // chart
-  chartConfig: AdvancedRadialGaugeChartConfig = {
-    min: 0,
-    max: 100,
-    unit: '',
-    thresholds: {},
-    markers: {},
-  };
-
-  value: number;
-  lastUpdated: string;
+  chartConfig: AdvancedRadialGaugeChartConfig = cloneDeep(
+    ADVANCED_RADIAL_GAUGE_CHART_CONFIG
+  );
+  value?: number;
+  lastUpdated?: string;
   loading = true;
 
-  private subscription: Subscription;
+  private subscription?: Subscription;
   private isDev = false;
 
   constructor() {
@@ -47,8 +40,8 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
     this.loading = true;
 
     // chart config
-    this.chartConfig.min = this.config.datapoint.min;
-    this.chartConfig.max = this.config.datapoint.max;
+    this.chartConfig.min = this.config.datapoint?.min;
+    this.chartConfig.max = this.config.datapoint?.max;
     this.chartConfig.thresholds = this.generateThresholds();
     this.chartConfig.markers = this.generateMarkers();
 
@@ -96,20 +89,20 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
       1
     );
     this.lastUpdated = measurement.time;
-    this.chartConfig.unit = this.config.datapoint.unit || measurement.unit;
+    this.chartConfig.unit = this.config.datapoint.unit || measurement['unit'];
   }
 
-  private generateThresholds() {
+  private generateThresholds(): AdvancedRadialGaugeChartConfig['thresholds'] {
     return {
       '0': {
         color: 'green',
         bgOpacity: 0.2,
       },
-      [this.config.datapoint.yellowRangeMin]: {
+      [this.config.datapoint.yellowRangeMin as number]: {
         color: 'orange',
         bgOpacity: 0.2,
       },
-      [this.config.datapoint.redRangeMin]: {
+      [this.config.datapoint.redRangeMin as number]: {
         color: 'red',
         bgOpacity: 0.2,
       },
@@ -118,22 +111,27 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
 
   private generateMarkers() {
     const markers = {
-      [this.chartConfig.min]: this.generateLineMarker(this.chartConfig.min),
-      [this.chartConfig.max]: this.generateLineMarker(this.chartConfig.max),
+      [this.chartConfig.min as number]: this.generateLineMarker(
+        this.chartConfig.min
+      ),
+      [this.chartConfig.max as number]: this.generateLineMarker(
+        this.chartConfig.max
+      ),
     };
 
-    const total = this.chartConfig.max - this.chartConfig.min;
+    const total =
+      (this.chartConfig.max as number) - (this.chartConfig.min as number);
     const steps = 10;
     const part = total / steps;
     let index = 0;
 
     for (
-      let step = this.chartConfig.min + part;
-      step < this.chartConfig.max;
+      let step = (this.chartConfig.min as number) + part;
+      step < (this.chartConfig.max as number);
       step += part
     ) {
       markers[step] = this.generateLineMarker(
-        steps > 5 && index % 2 === 0 ? null : step
+        steps > 5 && index % 2 === 0 ? 0 : step // TODO check null : step
       );
       index++;
     }
@@ -146,7 +144,7 @@ export class AdvancedRadialGaugeWidget implements OnInit, OnDestroy {
   private generateLineMarker(label?: string | number) {
     const lineMarkerBase = {
       color: '#888',
-      type: AdvancedRadialGaugeChartmarkerType.line,
+      type: AdvancedRadialGaugeChartMarkerType.line,
       size: 6,
     };
 

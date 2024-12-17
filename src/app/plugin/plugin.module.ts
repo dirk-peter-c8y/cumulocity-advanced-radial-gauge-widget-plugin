@@ -4,16 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CoreModule,
+  hookWidget,
   MeasurementRealtimeService,
-  hookComponent,
 } from '@c8y/ngx-components';
 import { FormlyModule } from '@ngx-formly/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxGaugeModule } from 'ngx-gauge';
-import {
-  AdvancedRadialGaugeWidget,
-  AdvancedRadialGaugeWidgetConfig,
-} from './components';
+import { AdvancedRadialGaugeWidgetConfig } from './components/advanced-radial-gauge-config/advanced-radial-gauge.config.component';
+import { AdvancedRadialGaugeWidget } from './components/advanced-radial-gauge/advanced-radial-gauge.component';
 
 @NgModule({
   imports: [
@@ -28,15 +26,15 @@ import {
   declarations: [AdvancedRadialGaugeWidget, AdvancedRadialGaugeWidgetConfig],
   providers: [
     MeasurementRealtimeService,
-    hookComponent({
-      id: 'advanced-radial-gauge.widget',
+    hookWidget({
+      id: 'c8y.advancedRadialGauge.widget',
       label: 'Advanced Radial Gauge Widget',
       description:
         'Cumulocity Advanced Radial Gauge Widget shows the latest realtime measurement on a radial gauge.',
       component: AdvancedRadialGaugeWidget,
       configComponent: AdvancedRadialGaugeWidgetConfig,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      previewImage: require('./assets/preview.png'),
+      previewImage: require('./../assets/preview.png'),
       data: {
         settings: {
           noNewWidgets: false,
@@ -51,4 +49,4 @@ import {
     }),
   ],
 })
-export class AdvancedRadialGaugeModule {}
+export class AdvancedRadialGaugePluginModule {}

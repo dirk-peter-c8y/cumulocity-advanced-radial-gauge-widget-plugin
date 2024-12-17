@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "less",
+          "style": "scss",
           "standalone": false
         },
         "@schematics/angular:directive": {
@@ -25,11 +25,21 @@
           "builder": "@c8y/devkit:build",
           "options": {
             "outputPath": "dist/plugin",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "less",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.less"],
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "@c8y/style/main.less",
+              "src/styles.scss"
+            ],
             "scripts": [],
             "aot": false,
             "main": "src/main.ts",
@@ -38,8 +48,7 @@
               "regenerator-runtime/runtime",
               "@cordobo/qrcode",
               "zone.js/dist/zone",
-              "chroma-js",
-              "lodash"
+              "chroma-js"
             ]
           },
           "configurations": {
@@ -47,13 +56,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all",
@@ -85,11 +94,22 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "less",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.less"],
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "@c8y/style/main.less",
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         },

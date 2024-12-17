@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { AdvancedRadialGaugeConfig } from '../../models/advanced-radial-gauge.model';
 import { KPIDetails } from '@c8y/ngx-components/datapoint-selector';
-import { isEmpty } from 'lodash';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { has } from 'lodash';
+import { AdvancedRadialGaugeConfig } from '../../models/advanced-radial-gauge.model';
 
 @Component({
   selector: 'c8y-advanced-radial-gauge-config-component',
@@ -13,7 +13,7 @@ import { isEmpty } from 'lodash';
 export class AdvancedRadialGaugeWidgetConfig implements OnInit {
   @Input() config!: AdvancedRadialGaugeConfig;
 
-  datapoints: KPIDetails[];
+  datapoints?: KPIDetails[];
   form = new FormGroup({});
   fields: FormlyFieldConfig[] = [
     // datapoint
@@ -85,10 +85,8 @@ export class AdvancedRadialGaugeWidgetConfig implements OnInit {
               },
               validators: {
                 'datapoint.max': {
-                  expression: (control: AbstractControl) =>
-                    !isEmpty(this.config.datapoint.max)
-                      ? control.value < this.config.datapoint.max
-                      : true,
+                  expression: (c: AbstractControl) =>
+                    this.validateLowerThan(c, 'max'),
                   message: 'Range Min value must be lower than the Range Max',
                 },
               },
@@ -103,10 +101,8 @@ export class AdvancedRadialGaugeWidgetConfig implements OnInit {
               },
               validators: {
                 'datapoint.min': {
-                  expression: (control: AbstractControl) =>
-                    !isEmpty(this.config.datapoint.min)
-                      ? control.value > this.config.datapoint.min
-                      : true,
+                  expression: (c: AbstractControl) =>
+                    this.validateHigherThan(c, 'min'),
                   message: 'Range Max value must be higher than the Range Min',
                 },
               },
@@ -127,24 +123,18 @@ export class AdvancedRadialGaugeWidgetConfig implements OnInit {
               },
               validators: {
                 'datapoint.min': {
-                  expression: (control: AbstractControl) =>
-                    !isEmpty(this.config.datapoint.min)
-                      ? control.value > this.config.datapoint.min
-                      : true,
+                  expression: (c: AbstractControl) =>
+                    this.validateHigherThan(c, 'min'),
                   message: 'Range value must be higher than the Range Min',
                 },
                 'datapoint.max': {
-                  expression: (control: AbstractControl) =>
-                    !isEmpty(this.config.datapoint.max)
-                      ? control.value < this.config.datapoint.max
-                      : true,
+                  expression: (c: AbstractControl) =>
+                    this.validateLowerThan(c, 'max'),
                   message: 'Range value must be lower than the Range Max',
                 },
                 'datapoint.redRangeMin': {
-                  expression: (control: AbstractControl) =>
-                    !isEmpty(this.config.datapoint.redRangeMin)
-                      ? control.value < this.config.datapoint.redRangeMin
-                      : true,
+                  expression: (c: AbstractControl) =>
+                    this.validateHigherThan(c, 'redRangeMin'),
                   message: 'Range value must be lower than the Red Range Start',
                 },
               },
@@ -160,19 +150,17 @@ export class AdvancedRadialGaugeWidgetConfig implements OnInit {
               validators: {
                 'datapoint.min': {
                   expression: (c: AbstractControl) =>
-                    this.validateHigherThanMin(c),
+                    this.validateHigherThan(c, 'min'),
                   message: 'Range value must be higher than the Range Min',
                 },
-                // 'datapoint.max': {
-                //   expression: (c: AbstractControl) =>
-                //     this.validateLowerThanMax(c),
-                //   message: 'Range value must be lower than the Range Max',
-                // },
+                'datapoint.max': {
+                  expression: (c: AbstractControl) =>
+                    this.validateLowerThan(c, 'max'),
+                  message: 'Range value must be lower than the Range Max',
+                },
                 'datapoint.yellowRangeMin': {
-                  expression: (control: AbstractControl) =>
-                    !isEmpty(this.config.datapoint.min)
-                      ? control.value > this.config.datapoint.yellowRangeMin
-                      : true,
+                  expression: (c: AbstractControl) =>
+                    this.validateHigherThan(c, 'yellowRangeMin'),
                   message:
                     'Range value must be higher than the Yellow Range Start',
                 },
@@ -202,17 +190,21 @@ export class AdvancedRadialGaugeWidgetConfig implements OnInit {
     if (this.isDev) console.log('config init', this.config);
   }
 
-  private validateHigherThanMin(control: AbstractControl): boolean {
-    console.log('min', { value: control.value, config: this.config.datapoint?.min });
-    return isEmpty(this.config.datapoint.min)
-      ? null
-      : control.value > this.config.datapoint.min;
+  private validateHigherThan(
+    control: AbstractControl,
+    dataPointKey: string
+  ): boolean {
+    return has(this.config?.datapoint, dataPointKey)
+      ? control.value > this.config?.datapoint?.[dataPointKey]
+      : true;
   }
 
-  // private validateLowerThanMax(control: AbstractControl): boolean {
-  //   console.log('max', { value: control.value, config: this.config.datapoint?.max });
-  //   return isEmpty(this.config.datapoint.max)
-  //     ? null
-  //     : control.value < this.config.datapoint.max;
-  // }
+  private validateLowerThan(
+    control: AbstractControl,
+    dataPointKey: string
+  ): boolean {
+    return has(this.config?.datapoint, dataPointKey)
+      ? control.value < this.config?.datapoint?.[dataPointKey]
+      : true;
+  }
 }

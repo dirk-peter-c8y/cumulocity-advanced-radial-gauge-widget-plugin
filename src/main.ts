@@ -1,13 +1,13 @@
 import './i18n';
 import { applyOptions, loadOptions } from '@c8y/bootstrap';
 
-const barHolder: HTMLElement = document.querySelector('body > .init-load');
-export const removeProgress = () => barHolder && barHolder.parentNode.removeChild(barHolder);
+const barHolder: HTMLElement | null = document.querySelector('body > .init-load');
+export const removeProgress = () => barHolder?.parentNode?.removeChild(barHolder);
 
 applicationSetup();
 
 async function applicationSetup() {
-  const options = await applyOptions({
+  await applyOptions({
     ...(await loadOptions())
   });
 
@@ -15,7 +15,6 @@ async function applicationSetup() {
     /* webpackPreload: true */
     './bootstrap'
   );
-  const bootstrapApp = mod.bootstrap || (window as any).bootstrap || (() => null);
-
-  return Promise.resolve(bootstrapApp(options)).then(removeProgress);
+  const bootstrapApp = mod.bootstrap;
+  return bootstrapApp().then(removeProgress);
 }
